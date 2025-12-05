@@ -5,7 +5,7 @@ import PyPDF2
 from docx import Document
 
 # === CONFIG ===
-client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = AsyncOpenAI(api_key="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")
 MODEL = "gpt-4o-mini"
 SYS = "You are BriAI — warm, expressive, friendly, and conversational. Always be helpful."
 
@@ -139,25 +139,36 @@ button {
 """
 
 # === UI ===
-with gr.Blocks(theme=gr.themes.Soft(), css=css, title="BriAI") as demo:
+# === UI ===
+with gr.Blocks(title="BriAI") as demo:
+    gr.HTML(f"<style>{css}</style>")
 
     gr.HTML("<h1 style='text-align:center;'>🤖 BriAI</h1>")
 
-    chatbot = gr.Chatbot(type="messages", avatar_images=(
-        "https://i.imgur.com/MT6X2bG.png",  # user avatar
-        "https://i.imgur.com/1X4gq2Z.png"   # BriAI avatar
-    ))
+    chatbot = gr.Chatbot(
+        avatar_images=(
+            "https://i.imgur.com/MtGX2bg.png",
+            "https://i.imgur.com/lX4gG2Z.png"
+        )
+    )
 
     msg = gr.Textbox(placeholder="Ask BriAI something...")
     files = gr.File(file_count="multiple", type="filepath", label="Attach Files")
     img = gr.Image(type="filepath", label="Paste/Upload Image")
     url = gr.Textbox(label="Web Link (optional)")
-    send = gr.Button("Send", variant="primary")
-    clear = gr.Button("New Chat")
+    submit = gr.Button("Send")
 
-    send.click(chat_stream, [msg, chatbot, files, img, url], [chatbot, msg])
-    msg.submit(chat_stream, [msg, chatbot, files, img, url], [chatbot, msg])
-    clear.click(lambda: ([], "", None, None, ""), outputs=[chatbot, msg, files, img, url])
+    # === EVENTS (✅ MUST BE INSIDE BLOCKS) ===
+    submit.click(
+        chat_stream,
+        inputs=[msg, chatbot, files, img, url],
+        outputs=[chatbot, msg]
+    )
 
-demo.launch(share=True)
+    msg.submit(
+        chat_stream,
+        inputs=[msg, chatbot, files, img, url],
+        outputs=[chatbot, msg]
+    )
 
+demo.launch(theme=gr.themes.Soft(), share=True)
