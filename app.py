@@ -4,8 +4,13 @@ from openai import AsyncOpenAI
 import PyPDF2
 from docx import Document
 
-# === CONFIG ===
-client = AsyncOpenAI(api_key="os.getenv('OPENAI_API_KEY')")
+from dotenv import load_dotenv
+import os
+from openai import AsyncOpenAI
+
+load_dotenv()
+
+client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 MODEL = "gpt-4o-mini"
 SYS = "You are BriAI — warm, expressive, friendly, and conversational. Always be helpful."
 
