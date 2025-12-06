@@ -1,12 +1,35 @@
-# Virtual environment
+# === Virtual environment ===
 venv/
-.env
+env/
+.venv/
 
-# Python cache
+# === Secrets & config ===
+.env
+.env.local
+.env.*      # any .env.something
+
+# === Python cache ===
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
 
-# Other common junk
+# === VS Code / IDE ===
+.vscode/
+.idea/
+*.code-workspace
+
+# === macOS / Windows junk ===
 .DS_Store
 Thumbs.db
+Desktop.ini
+
+# === Other common folders ===
+node_modules/
+dist/
+build/
+
+# === Optional: if you ever add logs or temp files ===
+*.log
+temp/
+tmp/
